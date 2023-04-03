@@ -1,0 +1,33 @@
+In this project, we have used Spring Cloud to achieve Service-discovery and API communication by RestTemplate
+
+For Service discovery, we have used Eureka to do registration, for this add netflix dependency in pom.xml and @EnableDiscoveryClient in following 4 clients:
+1.eureka-server[this is service discovery client]
+http://localhost:8761/
+2.guest-service:9081[this microservice containing guest details only]
+db link->http://localhost:9081/h2console/
+GET-http://localhost:9081/guests/?emailAddress=dbell2l@wp.com
+POST-http://localhost:9081/guests
+body:{
+    
+    "firstName": "Peter",
+    "lastName": "Pan",
+    "emailAddress": "peterPan1a@ed.gov",
+    "address": "21822 Talisman Drive",
+    "country": "United States",
+    "state": "TX",
+    "phoneNumber": "1-(296)887-1815"
+}
+GET-http://localhost:9081/guests/148
+PUT:http://localhost:9081/guests/201, same body as above
+DELETE-http://localhost:9081/guests/201
+
+3.room-service:9083, [this is microservice containing room details only]
+db link ->http://localhost:9083/h2console/
+GET-http://localhost:9083/rooms/5
+
+4.reservation-service:9082, [this is microservice containing room booking service by guest]
+db link ->http://localhost:9082/h2console/
+GET-http://localhost:9082/reservations/2
+
+4.room-reservation-service:8080[this service call information from reservation and room service based on date input]
+GET-http://localhost:8080/roomReservations
